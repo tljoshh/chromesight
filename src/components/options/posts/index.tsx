@@ -27,6 +27,7 @@ export default function PostsOptions() {
 	const [markdownButtons, setMarkdownButtons] = useStorage<FeatureSettings>('markdownButtons', defaultSettings);
 	const [hideReplyArea, setHideReplyArea] = useStorage<FeatureSettings>('hideReplyArea', defaultSettings);
 	const [resizableImages, setResizableImages] = useStorage<FeatureSettings>('resizableImages', defaultSettings);
+	const [imageGallery, setImageGallery] = useStorage<FeatureSettings>('imageGallery', defaultSettings);
 
 	return (
 		<div className={style.group} id="posts">
@@ -105,6 +106,17 @@ export default function PostsOptions() {
 				<Switch
 					onChange={(checked: boolean) => setHideReplyArea({ ...hideReplyArea, enabled: checked })}
 					checked={hideReplyArea.enabled}
+				/>
+			</fieldset>
+
+			<fieldset className={style.fieldset}>
+				<div className={`${style.group} ${style.small}`}>
+					<p className={style.label}>Image gallery</p>
+					<p className={style.description}>View all pictures posted on the page as a lightbox gallery. Useful for image dump topics.</p>
+				</div>
+				<Switch
+					onChange={(checked: boolean) => setImageGallery({ ...imageGallery, enabled: checked })}
+					checked={imageGallery.enabled}
 				/>
 			</fieldset>
 

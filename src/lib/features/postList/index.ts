@@ -6,6 +6,7 @@ import autoScroll from './autoScroll';
 import embedTwitter from './embedTwitter';
 import filterMe from './filterMe';
 import hideReplyArea from './hideReplyArea';
+import imageGallery from './imageGallery';
 import markTopicCreator from './markTopicCreator';
 import markdownButtons from './markdownButtons';
 import nwsTopicImages from './nwsTopicImages';
@@ -25,6 +26,7 @@ const features: Feature[] = [
 	markdownButtons,
 	hideReplyArea,
 	resizableImages,
+	imageGallery,
 ];
 
 export default features;
