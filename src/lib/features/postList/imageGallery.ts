@@ -52,7 +52,7 @@ export default createFeature(
 			padding: 5px;
 			background: rgba(0,0,0,.5);
 			backdrop-filter: blur(4px);
-			overflow-x: scroll;
+			overflow-x: auto;
 			scroll-snap-type: x mandatory;
 			scroll-behavior: smooth;
 			position: absolute;
@@ -84,6 +84,7 @@ export default createFeature(
 			gallery: '#messages',
 			children: '.lightbox',
 			pswpModule: PhotoSwipe,
+			padding: { top: 20, bottom: 111, left: 20, right: 20 },
 		});
 		// Add images as tiles and click to navigate functionality
 		lightbox.on('uiRegister', function() {
@@ -108,6 +109,7 @@ export default createFeature(
 					}
 
 					pswp.on('change', () => {
+						tiles[pswp.currIndex].scrollIntoView({ behavior: 'smooth', inline: 'center' });
 						if (prevIndex >= 0) {
 							tiles[prevIndex].classList.remove('pswp__tile--active');
 						}
