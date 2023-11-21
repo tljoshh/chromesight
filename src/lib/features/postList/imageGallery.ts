@@ -1,14 +1,16 @@
 import logDebugMessage from '~lib/logs/debug';
 import createFeature from '../feature';
+import type { PhotoSwipeLightbox as PhotoSwipeLightboxType } from 'photoswipe/dist/types/core/eventable';
 import PhotoSwipeLightbox from 'photoswipe/src/js/lightbox/lightbox.js';
 import PhotoSwipe from 'photoswipe/src/js/photoswipe.js';
 import 'photoswipe/src/photoswipe.css';
 import insertStyles from '~lib/insertStyles';
 import { CSS_PREFIX } from '~constants';
 
-const setupImageMarkup = () => {
+let lightbox: PhotoSwipeLightboxType;
+
+const setupImageMarkup = (elements: NodeListOf<HTMLImageElement>) => {
 	// Setup each media element for the lightbox viewer
-	const elements = document.querySelectorAll('.message-contents > p img:not(.shrunk)');
 	elements.forEach((element: HTMLImageElement) => {
 		// Determine if we need to add a wrapper element to each media element
 		let wrapper: HTMLElement;
@@ -34,7 +36,7 @@ const setupImageMarkup = () => {
 	});
 };
 
-const handleTileRegistration = (lightbox) => {
+const handleTileRegistration = () => {
 	lightbox.pswp.ui.registerElement({
 		name: 'imageTiles',
 		className: 'pswp__tiles',
@@ -65,7 +67,7 @@ const handleTileRegistration = (lightbox) => {
 			});
 		},
 	});
-}
+};
 
 export default createFeature(
 	'imageGallery',
@@ -73,7 +75,8 @@ export default createFeature(
 		logDebugMessage('Feature Enabled: Image Gallery');
 
 		// Markup images for use with lightbox
-		setupImageMarkup();
+		const elements: NodeListOf<HTMLImageElement> = document.querySelectorAll('.message-contents > p img:not(.shrunk)');
+		setupImageMarkup(elements);
 
 		// Add styles for lightbox tile navigation
 		const rules = `
@@ -112,14 +115,20 @@ export default createFeature(
 		insertStyles(`${CSS_PREFIX}lightbox`, rules);
 
 		// Initialize lightbox
-		const lightbox = new PhotoSwipeLightbox({
+		lightbox = new PhotoSwipeLightbox({
 			gallery: '#messages',
 			children: '.lightbox',
 			pswpModule: PhotoSwipe,
 			padding: { top: 20, bottom: 111, left: 20, right: 20 },
 		});
 		// Create lighbox tile navigation
-		lightbox.on('uiRegister', () => handleTileRegistration(lightbox));
+		lightbox.on('uiRegister', handleTileRegistration);
+		// Instantiate PhotoSwipeLightbox
 		lightbox.init();
+	},
+	async (addedNode) => {
+		// Markup images for use with lightbox
+		const elements: NodeListOf<HTMLImageElement> = addedNode.querySelectorAll('.message-contents > p img:not(.shrunk)');
+		setupImageMarkup(elements);
 	},
 );
