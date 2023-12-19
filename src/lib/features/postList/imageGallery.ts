@@ -75,7 +75,7 @@ export default createFeature(
 		logDebugMessage('Feature Enabled: Image Gallery');
 
 		// Markup images for use with lightbox
-		const elements: NodeListOf<HTMLImageElement> = document.querySelectorAll('.message-contents > p img:not(.shrunk)');
+		const elements: NodeListOf<HTMLImageElement> = document.querySelectorAll('.message-contents p img:not(.shrunk)');
 		setupImageMarkup(elements);
 
 		// Add styles for lightbox tile navigation
@@ -128,7 +128,7 @@ export default createFeature(
 	},
 	async (addedNode) => {
 		// Markup images for use with lightbox
-		const elements: NodeListOf<HTMLImageElement> = addedNode.querySelectorAll('.message-contents > p img:not(.shrunk)');
+		const elements: NodeListOf<HTMLImageElement> = addedNode.querySelectorAll('.message-contents *:not(.msg-quote) img:not(.shrunk)');
 		setupImageMarkup(elements);
 	},
 );
